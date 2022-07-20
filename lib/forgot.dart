@@ -1,29 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/forgot.dart';
-import 'package:my_app/registeration.dart';
-// import 'package:ui_tut/constants.dart';
+import 'main.dart';
 
-void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+// ignore: use_key_in_widget_constructors
+class ForgotPassword extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: LoginPage(),
-    );
-  }
+  // ignore: library_private_types_in_public_api
+  _ForgotPasswordState createState() => _ForgotPasswordState();
 }
 
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  late int mobileNumber;
-  late String password;
+class _ForgotPasswordState extends State<ForgotPassword> { 
+   late String name;
+   late int mobileNumber;
+   late String password;
   Widget _buildLogo() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -43,9 +32,10 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+
   Widget _buildMobileNumberRow() {
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.fromLTRB(8,8,8,40),
       child: TextFormField(
         keyboardType: TextInputType.number,
         onChanged: (value) {
@@ -63,55 +53,14 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildPasswordRow() {
-    return Padding(
-      padding: EdgeInsets.all(8),
-      child: TextFormField(
-        keyboardType: TextInputType.text,
-        obscureText: true,
-        onChanged: (value) {
-          setState(() {
-            password = value;
-          });
-        },
-        decoration: InputDecoration(
-          prefixIcon: Icon(
-            Icons.lock,
-            color: Colors.blue[500],
-          ),
-          labelText: 'Password',
-        ),
-      ),
-    );
-  }
-
-  Widget _buildForgetPasswordButton() {
-    return Row(    
-    mainAxisAlignment: MainAxisAlignment.end,
-    crossAxisAlignment: CrossAxisAlignment.end,
-      children: <Widget>[
-        FlatButton(
-          onPressed: () {
-            Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => ForgotPassword()),
-  );
-          },
-          padding: EdgeInsets.all(30),
-          child: Text("Forgot Password"),
-        ),
-      ],
-    );
-    
-  }
-
+ 
   Widget _buildLoginButton() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
+      children: <Widget>[      
         Container(
           height: 1.4 * (MediaQuery.of(context).size.height / 20),
-          width: 5 * (MediaQuery.of(context).size.width / 10),
+          width: 5 * (MediaQuery.of(context).size.width / 10),         
           margin: EdgeInsets.only(bottom: 20),
           child: RaisedButton(
             elevation: 5.0,
@@ -121,64 +70,19 @@ class _LoginPageState extends State<LoginPage> {
             ),
             onPressed: () {},
             child: Text(
-              "LOGIN",
+              "Request OTP",
               style: TextStyle(
                 color: Colors.white,
-                letterSpacing: 1.5,
-                fontSize: MediaQuery.of(context).size.height / 40,
+                letterSpacing: 1,
+                fontSize: MediaQuery.of(context).size.height / 45,
               ),
             ),
-          ),
+          ),         
         )
       ],
     );
   }
 
-  // Widget _buildOrRow() {
-  //   return Row(
-  //     mainAxisAlignment: MainAxisAlignment.center,
-  //     children: <Widget>[
-  //       Container(
-  //         margin: EdgeInsets.only(bottom: 20),
-  //         child: Text(
-  //           '- OR -',
-  //           style: TextStyle(
-  //             fontWeight: FontWeight.w400,
-  //           ),
-  //         ),
-  //       )
-  //     ],
-  //   );
-  // }
-
-  // Widget _buildSocialBtnRow() {
-  //   return Row(
-  //     mainAxisAlignment: MainAxisAlignment.center,
-  //     children: <Widget>[
-  //       GestureDetector(
-  //         onTap: () {},
-  //         child: Container(
-  //           height: 60,
-  //           width: 60,
-  //           decoration: BoxDecoration(
-  //             shape: BoxShape.circle,
-  //             color: Colors.blue[500],
-  //             boxShadow: [
-  //               BoxShadow(
-  //                   color: Colors.black26,
-  //                   offset: Offset(0, 2),
-  //                   blurRadius: 6.0)
-  //             ],
-  //           ),
-  //           child: const Icon(
-  //             FontAwesomeIcons.google,
-  //             color: Colors.white,
-  //           ),
-  //         ),
-  //       )
-  //     ],
-  //   );
-  // }
 
   Widget _buildContainer() {
     return Row(
@@ -199,22 +103,18 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
+                  mainAxisAlignment: MainAxisAlignment.center,                 
+                  children: <Widget>[                   
                     Text(
-                      "Please login to continue",
+                      "Please enter your mobile number",
                       style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.height / 45,
-                      ),
-                    ),
+                        fontSize: MediaQuery.of(context).size.height / 50,
+                        )
+                      ),                   
                   ],
-                ),
-                _buildMobileNumberRow(),
-                _buildPasswordRow(),
-                _buildForgetPasswordButton(),
-                _buildLoginButton(),
-                // _buildOrRow(),
-                // _buildSocialBtnRow(),
+                ),            
+                _buildMobileNumberRow(),                             
+                _buildLoginButton(),              
               ],
             ),
           ),
@@ -233,13 +133,13 @@ class _LoginPageState extends State<LoginPage> {
             onPressed: () {
               Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => SignupPage()),
+    MaterialPageRoute(builder: (context) => LoginPage()),
   );
             },
             child: RichText(
               text: TextSpan(children: [
                 TextSpan(
-                  text: 'Dont have an account? ',
+                  text: 'Already have an account? ',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: MediaQuery.of(context).size.height / 50,
@@ -247,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 TextSpan(
-                  text: 'Signup',
+                  text: 'Login',
                   style: TextStyle(
                     color: Colors.blue[500],
                     fontSize: MediaQuery.of(context).size.height / 50,
