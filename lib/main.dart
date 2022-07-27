@@ -1,6 +1,11 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:my_app/dropdown.dart';
 import 'package:my_app/forgot.dart';
 import 'package:my_app/registeration.dart';
+import 'package:http/http.dart' as http;
 // import 'package:ui_tut/constants.dart';
 
 void main() => runApp(MyApp());
@@ -21,9 +26,12 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
+TextEditingController phoneTextEditingController = TextEditingController();
+TextEditingController passwordTextEditingController = TextEditingController();
+
 class _LoginPageState extends State<LoginPage> {
-  late int mobileNumber;
-  late String password;
+  late int mobileNumber = "00000000" as int;
+  late String password = "aaaaaaaa";
   Widget _buildLogo() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -47,12 +55,13 @@ class _LoginPageState extends State<LoginPage> {
     return Padding(
       padding: EdgeInsets.all(8),
       child: TextFormField(
+        controller: phoneTextEditingController,
         keyboardType: TextInputType.number,
-        onChanged: (value) {
-          setState(() {
-            mobileNumber = value as int;            
-          });
-        },
+        // onChanged: (value) {
+        //   // setState(() {
+        //   //   mobileNumber = value as int;
+        //   // });
+        // },
         decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.phone,
@@ -64,9 +73,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildPasswordRow() {
+    // login("8281916295", "ashik2001");
     return Padding(
       padding: EdgeInsets.all(8),
       child: TextFormField(
+        controller: passwordTextEditingController,
         keyboardType: TextInputType.text,
         obscureText: true,
         onChanged: (value) {
@@ -85,24 +96,53 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Future<bool> login(loginId, loginPsw) async {
+    final response = await http.get(
+        Uri.parse('https://gear-up-56ec5-default-rtdb.firebaseio.com/.json'));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      var data = jsonDecode(response.body);
+      if (data["login"][0].containsKey(loginId)) {
+        if (loginPsw == data["login"][0][loginId]) {
+          return Future.value(true);
+        }
+        return Future.value(false);
+      }
+      return Future.value(false);
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      return Future.value(false);
+    }
+  }
+
   Widget _buildForgetPasswordButton() {
-    return Row(    
-    mainAxisAlignment: MainAxisAlignment.end,
-    crossAxisAlignment: CrossAxisAlignment.end,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         FlatButton(
           onPressed: () {
             Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => ForgotPassword()),
-  );
+              context,
+              MaterialPageRoute(builder: (context) => ForgotPassword()),
+            );
           },
           padding: EdgeInsets.all(30),
           child: Text("Forgot Password"),
         ),
       ],
     );
-    
+  }
+
+   _snackbar(message) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('$message'),
+      ),
+    );
   }
 
   Widget _buildLoginButton() {
@@ -119,7 +159,22 @@ class _LoginPageState extends State<LoginPage> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
             ),
-            onPressed: () {},
+            onPressed: () async {
+              // print(phoneTextEditingController.text);
+              // passwordTextEditingController
+              Future<bool> isAvailable = login(phoneTextEditingController.text,
+                  passwordTextEditingController.text);
+              if (await isAvailable) {
+                // print('asdsad');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DropDown()),
+                );
+              } else {
+                // print("nop");
+                _snackbar("Wrong Mobile Number or Password");
+              }
+            },
             child: Text(
               "LOGIN",
               style: TextStyle(
@@ -134,51 +189,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // Widget _buildOrRow() {
-  //   return Row(
-  //     mainAxisAlignment: MainAxisAlignment.center,
-  //     children: <Widget>[
-  //       Container(
-  //         margin: EdgeInsets.only(bottom: 20),
-  //         child: Text(
-  //           '- OR -',
-  //           style: TextStyle(
-  //             fontWeight: FontWeight.w400,
-  //           ),
-  //         ),
-  //       )
-  //     ],
-  //   );
-  // }
-
-  // Widget _buildSocialBtnRow() {
-  //   return Row(
-  //     mainAxisAlignment: MainAxisAlignment.center,
-  //     children: <Widget>[
-  //       GestureDetector(
-  //         onTap: () {},
-  //         child: Container(
-  //           height: 60,
-  //           width: 60,
-  //           decoration: BoxDecoration(
-  //             shape: BoxShape.circle,
-  //             color: Colors.blue[500],
-  //             boxShadow: [
-  //               BoxShadow(
-  //                   color: Colors.black26,
-  //                   offset: Offset(0, 2),
-  //                   blurRadius: 6.0)
-  //             ],
-  //           ),
-  //           child: const Icon(
-  //             FontAwesomeIcons.google,
-  //             color: Colors.white,
-  //           ),
-  //         ),
-  //       )
-  //     ],
-  //   );
-  // }
 
   Widget _buildContainer() {
     return Row(
@@ -232,9 +242,9 @@ class _LoginPageState extends State<LoginPage> {
           child: FlatButton(
             onPressed: () {
               Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => SignupPage()),
-  );
+                context,
+                MaterialPageRoute(builder: (context) => SignupPage()),
+              );
             },
             child: RichText(
               text: TextSpan(children: [
