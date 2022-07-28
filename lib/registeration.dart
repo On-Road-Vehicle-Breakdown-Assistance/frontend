@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'contact.dart';
 import 'main.dart';
 
 
@@ -100,20 +101,7 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  // Widget _buildForgetPasswordButton() {
-  //   return Row(    
-  //   mainAxisAlignment: MainAxisAlignment.end,
-  //   crossAxisAlignment: CrossAxisAlignment.end,
-  //     children: <Widget>[
-  //       FlatButton(
-  //         onPressed: () {},
-  //         padding: EdgeInsets.all(30),
-  //         child: Text("Forgot Password"),
-  //       ),
-  //     ],
-  //   );
-    
-  // }
+
 
   Widget _buildLoginButton() {
     return Row(
@@ -227,6 +215,37 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
+  Widget _buildContactBtn() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 30),
+          child: FlatButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ContactPage()),
+              );
+            },
+            child: RichText(
+              text: TextSpan(children: [
+                TextSpan(
+                  text: 'Contact Developer ',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: MediaQuery.of(context).size.height / 50,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ]),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -254,6 +273,7 @@ class _SignupPageState extends State<SignupPage> {
                 _buildLogo(),
                 _buildContainer(),
                 _buildSignUpBtn(),
+                _buildContactBtn(),
               ],
             )
           ],

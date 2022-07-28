@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:my_app/contact.dart';
 import 'package:my_app/dropdown.dart';
 import 'package:my_app/forgot.dart';
 import 'package:my_app/registeration.dart';
@@ -233,7 +234,46 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildSignUpBtn() {
+    Widget _buildSignUpBtn() {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(top: 30),
+            child: FlatButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SignupPage()),
+                );
+              },
+              child: RichText(
+                text: TextSpan(children: [
+                  TextSpan(
+                    text: 'Dont have an account? ',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: MediaQuery.of(context).size.height / 50,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'Signup',
+                    style: TextStyle(
+                      color: Colors.blue[500],
+                      fontSize: MediaQuery.of(context).size.height / 50,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                ]),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
+Widget _buildContactBtn() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -243,27 +283,19 @@ class _LoginPageState extends State<LoginPage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SignupPage()),
+                MaterialPageRoute(builder: (context) => ContactPage()),
               );
             },
             child: RichText(
               text: TextSpan(children: [
                 TextSpan(
-                  text: 'Dont have an account? ',
+                  text: 'Contact Developer ',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.blue,
                     fontSize: MediaQuery.of(context).size.height / 50,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                TextSpan(
-                  text: 'Signup',
-                  style: TextStyle(
-                    color: Colors.blue[500],
-                    fontSize: MediaQuery.of(context).size.height / 50,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
               ]),
             ),
           ),
@@ -271,6 +303,8 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -299,6 +333,7 @@ class _LoginPageState extends State<LoginPage> {
                 _buildLogo(),
                 _buildContainer(),
                 _buildSignUpBtn(),
+                _buildContactBtn(),
               ],
             )
           ],

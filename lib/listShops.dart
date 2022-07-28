@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class ListShops extends StatefulWidget {
   ListShops({Key? key, required this.passedPlace}) : super(key: key);
@@ -16,9 +17,8 @@ class ListShops extends StatefulWidget {
 }
 
 class _ListShopsState extends State<ListShops> {
-  late List placeList = ["loading"];
   late List phoneList = ["loading"];
-
+  late List shopName = ["loading"];
 
   @override
   void initState() {
@@ -33,20 +33,33 @@ class _ListShopsState extends State<ListShops> {
       body: ListView.separated(
           itemBuilder: (BuildContext context, int index) {
             return Card(
-              color: Colors.green,
+              color: Colors.blue,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(10,5,10,10),
+                padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                 child: ListTile(
-                  subtitle: Text(placeList[index]),
-                  title: Text(phoneList[index]),
+                  leading: Icon(Icons.store),
+                  subtitle: Text(phoneList[index]), 
+                  title: Text(shopName[index]),
+                  onTap: () {
+                    _makingPhoneCall(phoneList[index]);
+                  },
                 ),
               ),
             );
           },
           separatorBuilder: (BuildContext context, int index) =>
               const Divider(),
-          itemCount: placeList.length),
+          itemCount: phoneList.length),
     );
+  }
+
+  Future _makingPhoneCall(phno) async {
+    var url = Uri.parse("tel:$phno");
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   Future getLoc() async {
@@ -57,15 +70,15 @@ class _ListShopsState extends State<ListShops> {
       // If the server did return a 200 OK response,
       // then parse the JSON.
       var a = jsonDecode(response.body);
-      placeList.clear();
       phoneList.clear();
+      shopName.clear();
       a.forEach((k, v) => v.forEach((c, d) => {
             if (d == widget.passedPlace)
               {
                 flag = 1
                 // setState(() {
                 //   print(c);
-                //   placeList.add("$d");
+                //   phoneList.add("$d");
                 // })
               },
             if (flag == 1 && c == 'phone')
@@ -74,22 +87,20 @@ class _ListShopsState extends State<ListShops> {
                 flag1 = 1,
                 flag = 0,
                 setState(() {
-                  placeList.add("$d");
+                  phoneList.add("$d");
                 })
               },
-              if (flag1 == 1 && c == 'w_name')
+            if (flag1 == 1 && c == 'w_name')
               {
-                
                 print(d),
                 flag1 = 0,
                 setState(() {
-                  phoneList.add("$d");
+                  shopName.add("$d");
                 }),
-                
               }
           }));
-          print(phoneList);
-      print(placeList);
+      print(shopName);
+      print(phoneList);
       return response.body;
     } else {
       // If the server did not return a 200 OK response,
