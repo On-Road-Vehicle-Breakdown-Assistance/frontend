@@ -174,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
                 // print('asdsad');
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => DropDown()),
+                  MaterialPageRoute(builder: (context) => MyHomePage()),
                 );
               } else {
                 // print("nop");
@@ -287,10 +287,8 @@ Widget _buildContactBtn() {
           child: FlatButton(
             onPressed: () {
               Navigator.push(
-                context,
-                // MaterialPageRoute(builder: (context) => CurrentLocationScreen()),
-                // MaterialPageRoute(builder: (context) => ContactPage()),
-                MaterialPageRoute(builder: (context) => MyHomePage()),
+                context,            
+                MaterialPageRoute(builder: (context) => ContactPage()),
               );
             },
             child: RichText(

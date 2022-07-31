@@ -159,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
              _markers.add(Marker(
         markerId: MarkerId('${nearestShops[i]}'),
         position: LatLng(double.parse(latitude[i]),  double.parse(longitude[i])),
-        infoWindow: InfoWindow(title: '${nearestShops[i]} -${dist}km'),
+        infoWindow: InfoWindow(title: '${nearestShops[i]} - ${dist}km'),
         onTap: (){
           _makingPhoneCall(phoneList[i]);
         }));
