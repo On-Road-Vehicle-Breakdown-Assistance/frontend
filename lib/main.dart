@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:my_app/contact.dart';
 import 'package:my_app/dropdown.dart';
 import 'package:my_app/forgot.dart';
+import 'package:my_app/home_screen.dart';
 import 'package:my_app/registeration.dart';
 import 'package:http/http.dart' as http;
+
+
 // import 'package:ui_tut/constants.dart';
 
 void main() => runApp(MyApp());
@@ -21,6 +24,8 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -283,7 +288,9 @@ Widget _buildContactBtn() {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ContactPage()),
+                // MaterialPageRoute(builder: (context) => CurrentLocationScreen()),
+                // MaterialPageRoute(builder: (context) => ContactPage()),
+                MaterialPageRoute(builder: (context) => MyHomePage()),
               );
             },
             child: RichText(
@@ -304,10 +311,11 @@ Widget _buildContactBtn() {
     );
   }
 
-
+ 
 
   @override
   Widget build(BuildContext context) {
+    
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -341,4 +349,5 @@ Widget _buildContactBtn() {
       ),
     );
   }
+  
 }

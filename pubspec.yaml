@@ -39,6 +39,23 @@ dependencies:
   firebase_auth: ^3.3.20
   http: ^0.13.4
   url_launcher: ^6.1.5
+  google_maps_flutter: ^2.1.10
+  custom_info_window: ^1.0.1
+  geolocator: ^9.0.1
+  flutter_geocoder: ^0.2.2-nullsafety
+  geocoding: ^2.0.4
+  flutter_polyline_points: ^1.0.0
+  fluttertoast:
+
+  modal_bottom_sheet: ^2.0.1
+
+  uuid: ^3.0.5
+
+  # http: 
+  # google_fonts:
+  # path_provider:
+  # image:
+  # image_picker:
 
 dev_dependencies:
   flutter_test:
